@@ -23,8 +23,8 @@ const HeroContent = styled.div`
 `;
 
 const ProfileImage = styled(motion.div)`
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   margin: 0 auto 2rem;
   background: linear-gradient(
@@ -34,35 +34,35 @@ const ProfileImage = styled(motion.div)`
   );
   padding: 4px;
   position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 
   img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    background: background-url("data/socialselfi.png");
   }
 
   @media (max-width: 768px) {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
   }
 `;
 
 const Greeting = styled(motion.h2)`
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: ${(props) => props.theme.primary};
   margin-bottom: 1rem;
   font-weight: 500;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 `;
 
 const Name = styled(motion.h1)`
-  font-size: 4rem;
-  font-weight: bold;
+  font-size: clamp(3rem, 6.5vw, 5rem);
+  font-weight: 800;
   margin-bottom: 1rem;
   background: linear-gradient(
     45deg,
@@ -74,27 +74,28 @@ const Name = styled(motion.h1)`
   background-clip: text;
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
   }
 `;
 
 const TypedText = styled.div`
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   margin-bottom: 2rem;
   color: ${(props) => props.theme.textSecondary};
-  min-height: 3rem;
+  min-height: 3.5rem;
+  font-weight: 600;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
-    min-height: 2.5rem;
+    min-height: 2.8rem;
   }
 `;
 
 const Description = styled(motion.p)`
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: ${(props) => props.theme.textSecondary};
   margin-bottom: 3rem;
-  max-width: 600px;
+  max-width: 680px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.8;
@@ -177,11 +178,10 @@ const Home = () => {
         <HeroContent>
           <ProfileImage variants={itemVariants} whileHover={{ scale: 1.05 }}>
             <img
-              src="/assets/images/profile.jpg"
-              alt="Profile"
+              src="./assets/images/profile.png"
+              alt="Mahesh More"
               onError={(e) => {
-                e.target.src =
-                  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23667eea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='60'%3EYN%3C/text%3E%3C/svg%3E";
+                e.target.src = "./assets/images/profile.jpg";
               }}
             />
           </ProfileImage>
@@ -195,9 +195,9 @@ const Home = () => {
               sequence={[
                 "Full-Stack Web Developer",
                 2000,
-                "React.js Developer",
+                "GenAI & RAG Enthusiast",
                 2000,
-                "AI & GenAI Integration",
+                "React.js & Node.js Developer",
                 2000,
                 "Problem Solver",
                 2000,
@@ -216,7 +216,7 @@ const Home = () => {
             <Button
               primary
               as={motion.a}
-              href="/contact"
+              href="#/contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
