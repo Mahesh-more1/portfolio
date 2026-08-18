@@ -309,26 +309,26 @@ const CTASection = styled.div`
 
 const About = () => {
   const skills = {
+    "Languages": ["JavaScript", "Python", "Java", "HTML5", "CSS3"],
+    "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
+    "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
+    "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
+    "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"],
     "Core CS Fundamentals": [
       "Database Management Systems (DBMS)",
       "Computer Networks (CN)",
       "Object-Oriented Programming (OOPs)",
       "Operating Systems (OS)",
-      "Data Structures & Algorithms"
-    ],
-    "Languages": ["JavaScript", "Python", "Java", "HTML5", "CSS3"],
-    "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
-    "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
-    "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
-    "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"]
+      "Data Structures & Algorithms (DSA)"
+    ]
   };
 
   const education = [
     {
       degree: "Bachelor of Engineering (B.E.) in Computer Engineering",
       institution: "SSBT's College of Engineering and Technology, Jalgaon",
-      duration: "2022 – 2026 (Pursuing)",
-      description: "Comprehensive coursework in Core CS Fundamentals including Database Management Systems (DBMS), Computer Networks, Object-Oriented Programming (OOPs), Operating Systems, Data Structures, and Software Engineering."
+      duration: "2023 – 2027 (Pursuing)",
+      description: "Academic Standing: 8.2 CGPA (Till 6th Semester) — Core Coursework: Database Management Systems (DBMS), Computer Networks (CN), Object-Oriented Programming (OOPs), Operating Systems (OS), Data Structures & Algorithms (DSA), and Software Engineering."
     }
   ];
 
