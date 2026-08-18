@@ -309,19 +309,34 @@ const Contact = () => {
   return (
     <ContactContainer>
       <Header>
+        <SectionPill style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '0.75rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.2em',
+          color: '#4f46e5',
+          marginBottom: '1rem',
+          fontWeight: 600
+        }}>/ GET IN TOUCH</SectionPill>
         <Title
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          Get In Touch
-        </Title>
-        <Subtitle
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.7 }}
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: 700,
+            color: 'inherit'
+          }}
         >
-          Have a project in mind? Let's work together to bring your ideas to life
+          Let's start a <span className="italic-accent">conversation</span>.
+        </Title>
+        <Subtitle
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+        >
+          Have a project in mind, an engineering role, or a collaboration opportunity? Reach out directly below.
         </Subtitle>
       </Header>
 

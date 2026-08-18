@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiDownload, FiCheck } from 'react-icons/fi';
+import { FiDownload, FiCheck, FiArrowRight } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
 const AboutContainer = styled.section`
@@ -16,31 +16,45 @@ const Header = styled.div`
   margin-bottom: 4rem;
 `;
 
-const Title = styled(motion.h1)`
-  font-size: 3rem;
+const SectionPill = styled.div`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: ${props => props.theme.primary};
   margin-bottom: 1rem;
-  background: linear-gradient(45deg, ${props => props.theme.text}, ${props => props.theme.primary});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-weight: 600;
+`;
 
-  @media (max-width: 768px) {
-    font-size: 2rem;
+const Title = styled(motion.h1)`
+  font-family: ${props => props.theme.serifFont};
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: ${props => props.theme.text};
+
+  span.italic-accent {
+    font-style: italic;
+    background: linear-gradient(135deg, ${props => props.theme.primary} 0%, ${props => props.theme.accent} 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: ${props => props.theme.textSecondary};
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
+  line-height: 1.7;
 `;
 
 const AboutContent = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  margin-bottom: 4rem;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 3rem;
+  margin-bottom: 5rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -49,58 +63,76 @@ const AboutContent = styled.div`
 `;
 
 const ProfileSection = styled(motion.div)`
+  background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  box-shadow: ${props => props.theme.shadow};
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: ${props => props.theme.primary};
+    transform: translateY(-4px);
+  }
 `;
 
 const ProfileImage = styled(motion.div)`
-  width: 300px;
-  height: 300px;
-  border-radius: 20px;
-  margin: 0 auto;
-  background: linear-gradient(45deg, ${props => props.theme.primary}, ${props => props.theme.accent});
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, ${props => props.theme.primary}, ${props => props.theme.accent});
   padding: 4px;
-  position: relative;
+  box-shadow: 0 12px 30px -10px rgba(79, 70, 229, 0.2);
 
   img {
     width: 100%;
     height: 100%;
-    border-radius: 16px;
+    border-radius: 50%;
     object-fit: cover;
-    background: ${props => props.theme.backgroundSecondary};
-  }
-
-  @media (max-width: 768px) {
-    width: 250px;
-    height: 250px;
   }
 `;
 
 const ProfileText = styled.div`
-  text-align: center;
-
   h3 {
-    font-size: 1.5rem;
+    font-family: ${props => props.theme.serifFont};
+    font-size: 1.8rem;
+    font-weight: 700;
     color: ${props => props.theme.text};
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   p {
-    color: ${props => props.theme.textSecondary};
-    font-size: 1.1rem;
+    font-family: ${props => props.theme.monoFont};
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: ${props => props.theme.primary};
+    font-weight: 600;
   }
 `;
 
-const AboutText = styled(motion.div)`
+const AboutTextCard = styled(motion.div)`
+  background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: ${props => props.theme.shadow};
+  backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  justify-content: space-between;
 
   p {
     color: ${props => props.theme.textSecondary};
     line-height: 1.8;
     font-size: 1.1rem;
+    margin-bottom: 1.25rem;
   }
 
   .highlight {
@@ -110,52 +142,61 @@ const AboutText = styled(motion.div)`
 `;
 
 const SkillsSection = styled.div`
-  margin-bottom: 4rem;
-`;
-
-const SectionTitle = styled(motion.h2)`
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  color: ${props => props.theme.text};
+  margin-bottom: 5rem;
 `;
 
 const SkillsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
 `;
 
 const SkillCategory = styled(motion.div)`
   background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 24px;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px ${props => props.theme.shadow};
+  box-shadow: ${props => props.theme.shadow};
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: ${props => props.theme.primary};
+  }
 `;
 
 const CategoryTitle = styled.h3`
-  font-size: 1.3rem;
-  color: ${props => props.theme.primary};
+  font-family: ${props => props.theme.serifFont};
+  font-size: 1.35rem;
+  color: ${props => props.theme.text};
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+
+  svg {
+    color: ${props => props.theme.primary};
+  }
 `;
 
 const SkillsList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.75rem;
 `;
 
 const SkillTag = styled.span`
-  background: ${props => props.theme.backgroundSecondary};
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: ${props => props.theme.mode === 'light' ? '#f1f5f9' : '#1e293b'};
   color: ${props => props.theme.text};
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: 2px solid ${props => props.theme.border};
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  border: 1px solid ${props => props.theme.cardBorder};
   transition: all 0.3s ease;
 
   &:hover {
@@ -165,73 +206,87 @@ const SkillTag = styled.span`
 `;
 
 const ExperienceSection = styled.div`
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 `;
 
 const ExperienceTimeline = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 800px;
+  gap: 1.5rem;
+  max-width: 900px;
   margin: 0 auto;
 `;
 
 const ExperienceItem = styled(motion.div)`
   background: ${props => props.theme.card};
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px ${props => props.theme.shadow};
-  position: relative;
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 24px;
+  padding: 2.25rem;
+  box-shadow: ${props => props.theme.shadow};
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
 
-  &::before {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    background: ${props => props.theme.primary};
-    border-radius: 50%;
+  &:hover {
+    transform: translateY(-3px);
+    border-color: ${props => props.theme.primary};
   }
 `;
 
-const ExperienceContent = styled.div`
-  h3 {
-    font-size: 1.3rem;
-    color: ${props => props.theme.text};
-    margin-bottom: 0.5rem;
-  }
+const ExperienceHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 
-  .company {
-    color: ${props => props.theme.primary};
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+  h3 {
+    font-family: ${props => props.theme.serifFont};
+    font-size: 1.4rem;
+    color: ${props => props.theme.text};
   }
 
   .duration {
-    color: ${props => props.theme.textSecondary};
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
+    font-family: ${props => props.theme.monoFont};
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: ${props => props.theme.primary};
+    background: ${props => props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.08)' : 'rgba(99, 102, 241, 0.15)'};
+    padding: 0.3rem 0.8rem;
+    border-radius: 9999px;
+    font-weight: 600;
   }
+`;
 
-  p {
-    color: ${props => props.theme.textSecondary};
-    line-height: 1.6;
-  }
+const ExperienceCompany = styled.div`
+  font-weight: 600;
+  color: ${props => props.theme.primary};
+  margin-bottom: 1rem;
+`;
+
+const ExperienceDescription = styled.p`
+  color: ${props => props.theme.textSecondary};
+  line-height: 1.7;
+  font-size: 1.05rem;
 `;
 
 const CTASection = styled.div`
   text-align: center;
+  background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 32px;
+  padding: 4rem 2rem;
+  box-shadow: ${props => props.theme.shadow};
 `;
 
 const About = () => {
   const skills = {
     "Languages": ["JavaScript", "Python", "Java", "HTML5", "CSS3"],
-    "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive Design"],
-    "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "PostgreSQL (Learning)", "REST APIs", "FastAPI"],
-    "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay Integration", "VS Code", "Firebase"],
-    "AI & Data": ["GenAI & RAG (Final Year Project)", "AI & Data Analytics", "Jupyter Notebook", "Machine Learning (Basics)"]
+    "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
+    "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
+    "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
+    "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"]
   };
 
   const experience = [
@@ -255,123 +310,96 @@ const About = () => {
     }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut"
-      }
-    }
-  };
-
   return (
     <AboutContainer>
       <Header>
+        <SectionPill>/ ABOUT ME</SectionPill>
         <Title
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          About Me
-        </Title>
-        <Subtitle
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.7 }}
         >
-          Get to know me better and learn about my journey as a developer
+          Crafting <span className="italic-accent">web experiences</span> & engineering solutions.
+        </Title>
+        <Subtitle
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+        >
+          Get to know my background, technical skill set, and hands-on experience
         </Subtitle>
       </Header>
 
       <AboutContent>
         <ProfileSection
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7 }}
         >
-          <ProfileImage
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
+          <ProfileImage whileHover={{ scale: 1.04 }}>
             <img 
-              src="/assets/images/profile.png" 
+              src="./assets/images/profile.png" 
               alt="Mahesh More" 
               onError={(e) => {
-                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23667eea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='80'%3EMM%3C/text%3E%3C/svg%3E";
+                e.target.src = "./assets/images/profile.jpg";
               }}
             />
           </ProfileImage>
           
           <ProfileText>
             <h3>Mahesh More</h3>
-            <p>Full-Stack Web Developer & GenAI Enthusiast</p>
+            <p>Full-Stack & GenAI Engineer</p>
           </ProfileText>
         </ProfileSection>
 
-        <AboutText
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
+        <AboutTextCard
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
         >
-          <p>
-            Hello! I'm <span className="highlight">Mahesh More</span>, a Computer Engineering student at SSBT's College of Engineering and Technology, Jalgaon.
-          </p>
-          
-          <p>
-            I focus on web development and problem-solving, building applications with <span className="highlight">React.js, JavaScript, Python</span>, and <span className="highlight">Java</span>.
-          </p>
-          
-          <p>
-            Currently, I am working on my Final Year Major Project: a <span className="highlight">GenAI-powered University Knowledge & Academic System</span> using <span className="highlight">RAG, FastAPI</span>, and modern web frameworks.
-          </p>
-          
-          <p>
-            I have completed web development & AI virtual internships certified by InternPro, VaultofCodes, and AICTE/Shell Edunet Foundation. Check out my featured projects below or on GitHub!
-          </p>
+          <div>
+            <p>
+              Hello! I'm <span className="highlight">Mahesh More</span>, a Computer Engineering student at SSBT's College of Engineering and Technology, Jalgaon.
+            </p>
+            
+            <p>
+              I specialize in full-stack web development and problem-solving, crafting scalable applications using <span className="highlight">React.js, JavaScript, Node.js, Express, Python</span>, and <span className="highlight">Java</span>.
+            </p>
+            
+            <p>
+              Currently, I am engineering my Final Year Major Project: a <span className="highlight">GenAI-powered University Knowledge System</span> leveraging <span className="highlight">Retrieval-Augmented Generation (RAG), FastAPI</span>, and modern web frameworks.
+            </p>
+          </div>
 
           <Button
             primary
             as={motion.a}
             href="/assets/resume.pdf"
             download
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            style={{ borderRadius: '9999px', width: 'fit-content', padding: '0.85rem 1.8rem' }}
           >
             <FiDownload /> Download Resume
           </Button>
-        </AboutText>
+        </AboutTextCard>
       </AboutContent>
 
       <SkillsSection>
-        <SectionTitle
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          Skills & Technologies
-        </SectionTitle>
+        <Header style={{ marginBottom: '2.5rem' }}>
+          <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
+          <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            Core <span className="italic-accent">skills & technologies</span>
+          </Title>
+        </Header>
         
         <SkillsGrid>
           {Object.entries(skills).map(([category, skillList], index) => (
             <SkillCategory
               key={category}
-              initial={{ y: 50, opacity: 0 }}
+              initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <CategoryTitle>
                 <FiCheck />
@@ -390,44 +418,47 @@ const About = () => {
       </SkillsSection>
 
       <ExperienceSection>
-        <SectionTitle
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          Experience & Learning
-        </SectionTitle>
+        <Header style={{ marginBottom: '2.5rem' }}>
+          <SectionPill>/ EXPERIENCE</SectionPill>
+          <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            Professional <span className="italic-accent">internships & learning</span>
+          </Title>
+        </Header>
         
         <ExperienceTimeline>
           {experience.map((exp, index) => (
             <ExperienceItem
               key={index}
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              whileHover={{ x: 10 }}
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
             >
-              <ExperienceContent>
+              <ExperienceHeader>
                 <h3>{exp.title}</h3>
-                <div className="company">{exp.company}</div>
-                <div className="duration">{exp.duration}</div>
-                <p>{exp.description}</p>
-              </ExperienceContent>
+                <span className="duration">{exp.duration}</span>
+              </ExperienceHeader>
+              <ExperienceCompany>{exp.company}</ExperienceCompany>
+              <ExperienceDescription>{exp.description}</ExperienceDescription>
             </ExperienceItem>
           ))}
         </ExperienceTimeline>
       </ExperienceSection>
 
       <CTASection>
+        <SectionPill>/ COLLABORATION</SectionPill>
+        <Title style={{ marginBottom: '1.5rem' }}>
+          Let's build something <span className="italic-accent">extraordinary</span> together.
+        </Title>
         <Button
           primary
           large
           as={motion.a}
-          href="/contact"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          href="#/contact"
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
+          style={{ borderRadius: '9999px', padding: '1rem 2.5rem' }}
         >
-          Let's Work Together
+          Say Hi <FiArrowRight />
         </Button>
       </CTASection>
     </AboutContainer>

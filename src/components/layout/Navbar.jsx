@@ -10,13 +10,13 @@ const NavContainer = styled(motion.nav)`
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 1rem 2rem;
+  padding: 1.25rem 2rem;
   background: ${props => props.scrolled ? 
-    `${props.theme.background}dd` : 'transparent'};
-  backdrop-filter: ${props => props.scrolled ? 'blur(10px)' : 'none'};
+    (props.theme.mode === 'light' ? 'rgba(250, 250, 250, 0.85)' : 'rgba(9, 13, 22, 0.85)') : 'transparent'};
+  backdrop-filter: ${props => props.scrolled ? 'blur(12px)' : 'none'};
   border-bottom: ${props => props.scrolled ? 
-    `1px solid ${props.theme.border}` : 'none'};
-  transition: all 0.3s ease;
+    `1px solid ${props.theme.cardBorder}` : '1px solid transparent'};
+  transition: all 0.4s ease;
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -32,12 +32,15 @@ const NavContent = styled.div`
 `;
 
 const Logo = styled(motion.div)`
-  font-size: 1.5rem;
-  font-weight: bold;
-  background: linear-gradient(45deg, ${props => props.theme.primary}, ${props => props.theme.accent});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: ${props => props.theme.serifFont};
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-style: italic;
+  color: ${props => props.theme.text};
+
+  span {
+    color: ${props => props.theme.primary};
+  }
 `;
 
 const NavLinks = styled.div`
@@ -54,15 +57,19 @@ const NavLinks = styled.div`
     flex-direction: column;
     background: ${props => props.theme.background};
     padding: 2rem;
-    border-top: 1px solid ${props => props.theme.border};
+    border-top: 1px solid ${props => props.theme.cardBorder};
   }
 `;
 
 const NavLink = styled(Link)`
   position: relative;
-  font-weight: 500;
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
   transition: color 0.3s ease;
-  color: ${props => props.active ? props.theme.primary : props.theme.text};
+  color: ${props => props.active ? props.theme.primary : props.theme.textSecondary};
 
   &:hover {
     color: ${props => props.theme.primary};
@@ -71,7 +78,7 @@ const NavLink = styled(Link)`
   &::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -6px;
     left: 0;
     width: ${props => props.active ? '100%' : '0'};
     height: 2px;
@@ -85,15 +92,20 @@ const NavLink = styled(Link)`
 `;
 
 const ThemeToggle = styled(motion.button)`
-  background: none;
+  background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
   color: ${props => props.theme.text};
-  font-size: 1.2rem;
-  padding: 0.5rem;
-  border-radius: 50%;
+  font-size: 1.1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 
   &:hover {
-    background: ${props => props.theme.backgroundSecondary};
+    border-color: ${props => props.theme.primary};
   }
 `;
 
@@ -115,7 +127,7 @@ const Navbar = ({ theme, toggleTheme }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 40);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -138,10 +150,10 @@ const Navbar = ({ theme, toggleTheme }) => {
     >
       <NavContent>
         <Logo
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
-          Mahesh.dev
+          Mahesh<span>.dev</span>
         </Logo>
 
         <NavLinks isOpen={isOpen}>
@@ -158,8 +170,9 @@ const Navbar = ({ theme, toggleTheme }) => {
           
           <ThemeToggle
             onClick={toggleTheme}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            title="Toggle Light / Dark Editorial Mode"
           >
             {theme === 'light' ? <FiMoon /> : <FiSun />}
           </ThemeToggle>

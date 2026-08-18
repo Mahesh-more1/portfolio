@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import { FiArrowDown, FiDownload, FiMail } from "react-icons/fi";
+import { FiDownload, FiMail, FiArrowRight } from "react-icons/fi";
 import ParticleBackground from "../components/common/ParticleBackground";
 import Button from "../components/common/Button";
 
@@ -12,29 +12,60 @@ const HomeContainer = styled.section`
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 2rem;
+  padding: 6rem 2rem 4rem;
   overflow: hidden;
 `;
 
 const HeroContent = styled.div`
   text-align: center;
   z-index: 2;
-  max-width: 800px;
+  max-width: 860px;
+`;
+
+const StatusPill = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  background: ${(props) =>
+    props.theme.mode === "light"
+      ? "rgba(255, 255, 255, 0.9)"
+      : "rgba(15, 23, 42, 0.8)"};
+  border: 1px solid ${(props) => props.theme.cardBorder};
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  font-family: ${(props) => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: ${(props) => props.theme.textSecondary};
+  margin-bottom: 2rem;
+
+  .dot {
+    color: ${(props) => props.theme.mint};
+    font-size: 0.75rem;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
 `;
 
 const ProfileImage = styled(motion.div)`
-  width: 240px;
-  height: 240px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   margin: 0 auto 2rem;
   background: linear-gradient(
-    45deg,
+    135deg,
     ${(props) => props.theme.primary},
     ${(props) => props.theme.accent}
   );
   padding: 4px;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 35px -10px rgba(79, 70, 229, 0.25);
 
   img {
     width: 100%;
@@ -44,72 +75,66 @@ const ProfileImage = styled(motion.div)`
   }
 
   @media (max-width: 768px) {
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
   }
 `;
 
-const Greeting = styled(motion.h2)`
-  font-size: 1.6rem;
+const CategoryLabel = styled(motion.p)`
+  font-family: ${(props) => props.theme.monoFont};
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
   color: ${(props) => props.theme.primary};
-  margin-bottom: 1rem;
-  font-weight: 500;
-
-  @media (max-width: 768px) {
-    font-size: 1.3rem;
-  }
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 `;
 
 const Name = styled(motion.h1)`
-  font-size: clamp(3rem, 6.5vw, 5rem);
-  font-weight: 800;
-  margin-bottom: 1rem;
-  background: linear-gradient(
-    45deg,
-    ${(props) => props.theme.text},
-    ${(props) => props.theme.primary}
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: ${(props) => props.theme.serifFont};
+  font-size: clamp(3.2rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  color: ${(props) => props.theme.text};
+  letter-spacing: -0.02em;
 
-  @media (max-width: 768px) {
-    font-size: 2.8rem;
+  span.italic-accent {
+    font-style: italic;
+    background: linear-gradient(
+      135deg,
+      ${(props) => props.theme.primary} 0%,
+      ${(props) => props.theme.accent} 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 
 const TypedText = styled.div`
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  margin-bottom: 2rem;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  margin-bottom: 1.5rem;
   color: ${(props) => props.theme.textSecondary};
-  min-height: 3.5rem;
-  font-weight: 600;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    min-height: 2.8rem;
-  }
+  min-height: 3.2rem;
+  font-weight: 500;
 `;
 
 const Description = styled(motion.p)`
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: ${(props) => props.theme.textSecondary};
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.8;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
 `;
 
 const CTAButtons = styled(motion.div)`
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   justify-content: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -117,51 +142,25 @@ const CTAButtons = styled(motion.div)`
   }
 `;
 
-const ScrollIndicator = styled(motion.div)`
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: ${(props) => props.theme.textSecondary};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-
-  &:hover {
-    color: ${(props) => props.theme.primary};
-  }
-`;
-
 const Home = () => {
-  const scrollIndicatorRef = useRef();
-
-  const handleScrollDown = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth",
-    });
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 35, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.8,
-        ease: "easeOut",
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   };
@@ -176,7 +175,11 @@ const Home = () => {
         animate="visible"
       >
         <HeroContent>
-          <ProfileImage variants={itemVariants} whileHover={{ scale: 1.05 }}>
+          <StatusPill variants={itemVariants}>
+            <span className="dot">●</span> Available for Projects & Engineering Roles
+          </StatusPill>
+
+          <ProfileImage variants={itemVariants} whileHover={{ scale: 1.04 }}>
             <img
               src="./assets/images/profile.png"
               alt="Mahesh More"
@@ -186,20 +189,22 @@ const Home = () => {
             />
           </ProfileImage>
 
-          <Greeting variants={itemVariants}>Hello, I'm</Greeting>
+          <CategoryLabel variants={itemVariants}>
+            / CREATIVE DEVELOPER & AI SPECIALIST
+          </CategoryLabel>
 
-          <Name variants={itemVariants}>Mahesh More</Name>
+          <Name variants={itemVariants}>
+            Mahesh More — I build <span className="italic-accent">intelligent web systems</span> & modern products.
+          </Name>
 
           <TypedText>
             <TypeAnimation
               sequence={[
                 "Full-Stack Web Developer",
                 2000,
-                "GenAI & RAG Enthusiast",
+                "GenAI & RAG Specialist",
                 2000,
-                "React.js & Node.js Developer",
-                2000,
-                "Problem Solver",
+                "React.js & Node.js Engineer",
                 2000,
               ]}
               wrapper="span"
@@ -209,7 +214,7 @@ const Home = () => {
           </TypedText>
 
           <Description variants={itemVariants}>
-            Computer Engineering student & web developer passionate about building clean, interactive web applications with React.js, JavaScript, and exploring GenAI & RAG integrations.
+            Computer Engineering student & web developer passionate about building clean, high-performance web applications with React.js, JavaScript, Node.js, and GenAI & RAG integrations.
           </Description>
 
           <CTAButtons variants={itemVariants}>
@@ -217,10 +222,11 @@ const Home = () => {
               primary
               as={motion.a}
               href="#/contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              style={{ borderRadius: '9999px', padding: '0.9rem 2rem', fontWeight: 600 }}
             >
-              <FiMail /> Hire Me
+              <FiMail /> Say Hi <FiArrowRight />
             </Button>
 
             <Button
@@ -228,10 +234,11 @@ const Home = () => {
               as={motion.a}
               href="/assets/resume.pdf"
               download
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              style={{ borderRadius: '9999px', padding: '0.9rem 2rem', fontWeight: 600 }}
             >
-              <FiDownload /> Download CV
+              <FiDownload /> Resume
             </Button>
           </CTAButtons>
         </HeroContent>

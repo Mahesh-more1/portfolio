@@ -16,46 +16,64 @@ const Header = styled.div`
   margin-bottom: 4rem;
 `;
 
-const Title = styled(motion.h1)`
-  font-size: 3rem;
+const SectionPill = styled.div`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: ${props => props.theme.primary};
   margin-bottom: 1rem;
-  background: linear-gradient(45deg, ${props => props.theme.text}, ${props => props.theme.primary});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-weight: 600;
+`;
 
-  @media (max-width: 768px) {
-    font-size: 2rem;
+const Title = styled(motion.h1)`
+  font-family: ${props => props.theme.serifFont};
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: ${props => props.theme.text};
+
+  span.italic-accent {
+    font-style: italic;
+    background: linear-gradient(135deg, ${props => props.theme.primary} 0%, ${props => props.theme.accent} 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: ${props => props.theme.textSecondary};
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
+  line-height: 1.7;
 `;
 
 const FilterContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.75rem;
 `;
 
 const FilterButton = styled(motion.button)`
-  padding: 0.5rem 1.5rem;
-  border-radius: 25px;
-  background: ${props => props.active ? props.theme.primary : 'transparent'};
-  color: ${props => props.active ? 'white' : props.theme.text};
-  border: 2px solid ${props => props.theme.primary};
-  font-weight: 500;
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1.4rem;
+  border-radius: 9999px;
+  background: ${props => props.active ? props.theme.primary : props.theme.card};
+  color: ${props => props.active ? 'white' : props.theme.textSecondary};
+  border: 1px solid ${props => props.active ? props.theme.primary : props.theme.cardBorder};
+  font-weight: 600;
   transition: all 0.3s ease;
 
   &:hover {
-    background: ${props => props.theme.primary};
-    color: white;
+    border-color: ${props => props.theme.primary};
+    color: ${props => props.active ? 'white' : props.theme.primary};
   }
 `;
 
@@ -356,19 +374,20 @@ const Projects = () => {
   return (
     <ProjectsContainer>
       <Header>
+        <SectionPill>/ FEATURED PROJECTS</SectionPill>
         <Title
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          My Projects
-        </Title>
-        <Subtitle
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.7 }}
         >
-          A collection of projects that showcase my skills and experience
+          Selected <span className="italic-accent">web applications</span> & products.
+        </Title>
+        <Subtitle
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+        >
+          Explore my featured full-stack applications, GenAI tools, and web engineering projects
         </Subtitle>
       </Header>
 

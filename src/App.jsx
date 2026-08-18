@@ -14,7 +14,7 @@ import ScrollToTop from './components/common/ScrollToTop';
 import Loader from './components/common/Loader';
 
 function App() {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
