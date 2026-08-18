@@ -141,7 +141,7 @@ const Navbar = ({ theme, toggleTheme }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          YourName
+          Mahesh.dev
         </Logo>
 
         <NavLinks isOpen={isOpen}>
