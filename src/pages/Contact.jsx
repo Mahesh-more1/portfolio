@@ -16,6 +16,16 @@ const Header = styled.div`
   margin-bottom: 4rem;
 `;
 
+const SectionPill = styled.div`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: ${props => props.theme.primary};
+  margin-bottom: 1rem;
+  font-weight: 600;
+`;
+
 const Title = styled(motion.h1)`
   font-size: 3rem;
   margin-bottom: 1rem;
@@ -309,25 +319,11 @@ const Contact = () => {
   return (
     <ContactContainer>
       <Header>
-        <SectionPill style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '0.75rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.2em',
-          color: '#4f46e5',
-          marginBottom: '1rem',
-          fontWeight: 600
-        }}>/ GET IN TOUCH</SectionPill>
+        <SectionPill>/ GET IN TOUCH</SectionPill>
         <Title
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7 }}
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-            fontWeight: 700,
-            color: 'inherit'
-          }}
         >
           Let's start a <span className="italic-accent">conversation</span>.
         </Title>
