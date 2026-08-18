@@ -211,7 +211,7 @@ const Home = () => {
               sequence={[
                 "Full-Stack Web Developer",
                 2000,
-                "GenAI & RAG Specialist",
+                "GenAI & RAG Developer",
                 2000,
                 "React.js & Node.js Engineer",
                 2000,
