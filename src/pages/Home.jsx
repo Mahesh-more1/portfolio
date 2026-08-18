@@ -190,11 +190,11 @@ const Home = () => {
           </ProfileImage>
 
           <CategoryLabel variants={itemVariants}>
-            / CREATIVE DEVELOPER & AI SPECIALIST
+            / CREATIVE DEVELOPER & AI ENTHUSIAST
           </CategoryLabel>
 
           <Name variants={itemVariants}>
-            Mahesh More — I build <span className="italic-accent">intelligent web systems</span> & modern products.
+            Mahesh <span className="italic-accent">More</span>
           </Name>
 
           <TypedText>
