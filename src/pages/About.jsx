@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiDownload, FiCheck, FiArrowRight, FiBookOpen } from 'react-icons/fi';
+import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
 const AboutContainer = styled.section`
@@ -209,27 +209,97 @@ const EducationSection = styled.div`
   margin-bottom: 5rem;
 `;
 
-const EducationTimeline = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 900px;
-  margin: 0 auto;
-`;
-
-const EducationItem = styled(motion.div)`
+const EducationCard = styled(motion.div)`
   background: ${props => props.theme.card};
   border: 1px solid ${props => props.theme.cardBorder};
-  border-radius: 24px;
-  padding: 2.25rem;
+  border-radius: 28px;
+  padding: 2.5rem;
   box-shadow: ${props => props.theme.shadow};
   backdrop-filter: blur(12px);
+  max-width: 900px;
+  margin: 0 auto;
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-3px);
     border-color: ${props => props.theme.primary};
   }
+`;
+
+const EduHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  .degree-box {
+    h3 {
+      font-family: ${props => props.theme.serifFont};
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: ${props => props.theme.text};
+      margin-bottom: 0.3rem;
+    }
+
+    .institution {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: ${props => props.theme.primary};
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .badges {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+`;
+
+const EduPill = styled.span`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  background: ${props => props.mint
+    ? (props.theme.mode === 'light' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.2)')
+    : (props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.08)' : 'rgba(99, 102, 241, 0.15)')};
+  color: ${props => props.mint ? '#10b981' : props.theme.primary};
+  border: 1px solid ${props => props.mint ? 'rgba(16, 185, 129, 0.3)' : 'rgba(79, 70, 229, 0.2)'};
+`;
+
+const EduCourseworkLabel = styled.div`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: ${props => props.theme.textSecondary};
+  margin: 1.5rem 0 0.75rem;
+  font-weight: 600;
+`;
+
+const CourseworkGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+`;
+
+const CourseworkTag = styled.span`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.75rem;
+  background: ${props => props.theme.mode === 'light' ? '#f8fafc' : '#0f172a'};
+  color: ${props => props.theme.text};
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid ${props => props.theme.cardBorder};
+  font-weight: 500;
 `;
 
 const ExperienceSection = styled.div`
@@ -313,23 +383,16 @@ const About = () => {
     "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
     "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
     "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
-    "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"],
-    "Core CS Fundamentals": [
-      "Database Management Systems (DBMS)",
-      "Computer Networks (CN)",
-      "Object-Oriented Programming (OOPs)",
-      "Operating Systems (OS)",
-      "Data Structures & Algorithms (DSA)"
-    ]
+    "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"]
   };
 
-  const education = [
-    {
-      degree: "Bachelor of Engineering (B.E.) in Computer Engineering",
-      institution: "SSBT's College of Engineering and Technology, Jalgaon",
-      duration: "2023 – 2027 (Pursuing)",
-      description: "Academic Standing: 8.2 CGPA (Till 6th Semester) — Core Coursework: Database Management Systems (DBMS), Computer Networks (CN), Object-Oriented Programming (OOPs), Operating Systems (OS), Data Structures & Algorithms (DSA), and Software Engineering."
-    }
+  const coursework = [
+    "Database Management Systems (DBMS)",
+    "Computer Networks (CN)",
+    "Object-Oriented Programming (OOPs)",
+    "Operating Systems (OS)",
+    "Data Structures & Algorithms (DSA)",
+    "Software Engineering"
   ];
 
   const experience = [
@@ -428,11 +491,48 @@ const About = () => {
         </AboutTextCard>
       </AboutContent>
 
+      <EducationSection>
+        <Header style={{ marginBottom: '2.5rem' }}>
+          <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
+          <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            Engineering <span className="italic-accent">degree & academic standing</span>
+          </Title>
+        </Header>
+
+        <EducationCard
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <EduHeader>
+            <div className="degree-box">
+              <h3>Bachelor of Engineering (B.E.) in Computer Engineering</h3>
+              <div className="institution">
+                <FiBookOpen /> SSBT's College of Engineering and Technology, Jalgaon
+              </div>
+            </div>
+            <div className="badges">
+              <EduPill>2023 – 2027 (Pursuing)</EduPill>
+              <EduPill mint><FiAward style={{ display: 'inline', marginRight: '4px' }} /> 8.2 CGPA (Till 6th SEM)</EduPill>
+            </div>
+          </EduHeader>
+
+          <EduCourseworkLabel>Key CS Coursework & Subjects:</EduCourseworkLabel>
+          <CourseworkGrid>
+            {coursework.map((subject, idx) => (
+              <CourseworkTag key={idx}>
+                {subject}
+              </CourseworkTag>
+            ))}
+          </CourseworkGrid>
+        </EducationCard>
+      </EducationSection>
+
       <SkillsSection>
         <Header style={{ marginBottom: '2.5rem' }}>
           <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
           <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Core <span className="italic-accent">skills & CS fundamentals</span>
+            Core <span className="italic-accent">skills & technologies</span>
           </Title>
         </Header>
         
@@ -459,33 +559,6 @@ const About = () => {
           ))}
         </SkillsGrid>
       </SkillsSection>
-
-      <EducationSection>
-        <Header style={{ marginBottom: '2.5rem' }}>
-          <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
-          <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Engineering <span className="italic-accent">degree & coursework</span>
-          </Title>
-        </Header>
-
-        <EducationTimeline>
-          {education.map((edu, index) => (
-            <EducationItem
-              key={index}
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              <ExperienceHeader>
-                <h3>{edu.degree}</h3>
-                <span className="duration">{edu.duration}</span>
-              </ExperienceHeader>
-              <ExperienceCompany>{edu.institution}</ExperienceCompany>
-              <ExperienceDescription>{edu.description}</ExperienceDescription>
-            </EducationItem>
-          ))}
-        </EducationTimeline>
-      </EducationSection>
 
       <ExperienceSection>
         <Header style={{ marginBottom: '2.5rem' }}>
