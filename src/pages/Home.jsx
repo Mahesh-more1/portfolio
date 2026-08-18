@@ -230,24 +230,6 @@ const Home = () => {
             <span className="dot">●</span> Available for Projects & Engineering Roles
           </StatusPill>
 
-          <DevHeroWindow variants={itemVariants} whileHover={{ scale: 1.02 }}>
-            <DevWindowHeader>
-              <div className="dots">
-                <span className="dot red" />
-                <span className="dot yellow" />
-                <span className="dot green" />
-              </div>
-              <div className="title">mahesh-more.config.ts</div>
-            </DevWindowHeader>
-            <DevWindowBody>
-              <div className="code-line"><span className="kw">const</span> <span className="var">developer</span> = &#123;</div>
-              <div className="code-line indent"><span className="prop">name</span>: <span className="str">"Mahesh More"</span>,</div>
-              <div className="code-line indent"><span className="prop">stack</span>: [<span className="str">"React"</span>, <span className="str">"Node"</span>, <span className="str">"Python"</span>],</div>
-              <div className="code-line indent"><span className="prop">focus</span>: <span className="str">"GenAI & Web Apps"</span></div>
-              <div className="code-line">&#125;;</div>
-            </DevWindowBody>
-          </DevHeroWindow>
-
           <CategoryLabel variants={itemVariants}>
             / CREATIVE DEVELOPER & AI ENTHUSIAST
           </CategoryLabel>
