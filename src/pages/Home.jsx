@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import { FiDownload, FiMail, FiArrowRight } from "react-icons/fi";
+import { FiDownload, FiMail, FiArrowRight, FiCode, FiTerminal } from "react-icons/fi";
 import ParticleBackground from "../components/common/ParticleBackground";
 import Button from "../components/common/Button";
 
@@ -53,30 +53,74 @@ const StatusPill = styled(motion.div)`
   }
 `;
 
-const ProfileImage = styled(motion.div)`
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  margin: 0 auto 2rem;
-  background: linear-gradient(
-    135deg,
-    ${(props) => props.theme.primary},
-    ${(props) => props.theme.accent}
-  );
-  padding: 4px;
-  position: relative;
-  box-shadow: 0 15px 35px -10px rgba(79, 70, 229, 0.25);
+const DevHeroWindow = styled(motion.div)`
+  max-width: 440px;
+  margin: 0 auto 2.5rem;
+  background: ${(props) =>
+    props.theme.mode === "light"
+      ? "#ffffff"
+      : "rgba(15, 23, 42, 0.9)"};
+  border: 1px solid ${(props) => props.theme.cardBorder};
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.12);
+  text-align: left;
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
+const DevWindowHeader = styled.div`
+  height: 36px;
+  background: ${(props) =>
+    props.theme.mode === "light"
+      ? "#f1f5f9"
+      : "#0f172a"};
+  border-bottom: 1px solid ${(props) => props.theme.cardBorder};
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+
+  .dots {
+    display: flex;
+    gap: 6px;
+
+    span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+
+      &.red { background: #ef4444; }
+      &.yellow { background: #f59e0b; }
+      &.green { background: #10b981; }
+    }
   }
 
-  @media (max-width: 768px) {
-    width: 170px;
-    height: 170px;
+  .title {
+    margin-left: auto;
+    font-family: ${(props) => props.theme.monoFont};
+    font-size: 0.72rem;
+    color: ${(props) => props.theme.textSecondary};
+    letter-spacing: 0.05em;
+  }
+`;
+
+const DevWindowBody = styled.div`
+  padding: 1.25rem 1.5rem;
+  font-family: ${(props) => props.theme.monoFont};
+  font-size: 0.85rem;
+  line-height: 1.8;
+
+  .code-line {
+    color: ${(props) => props.theme.text};
+
+    &.indent {
+      padding-left: 1.25rem;
+    }
+
+    .kw { color: #8b5cf6; font-weight: 600; }
+    .var { color: #2563eb; }
+    .prop { color: #059669; }
+    .str { color: #d97706; }
   }
 `;
 
@@ -186,15 +230,23 @@ const Home = () => {
             <span className="dot">●</span> Available for Projects & Engineering Roles
           </StatusPill>
 
-          <ProfileImage variants={itemVariants} whileHover={{ scale: 1.04 }}>
-            <img
-              src="./assets/images/profile.png"
-              alt="Mahesh More"
-              onError={(e) => {
-                e.target.src = "./assets/images/profile.jpg";
-              }}
-            />
-          </ProfileImage>
+          <DevHeroWindow variants={itemVariants} whileHover={{ scale: 1.02 }}>
+            <DevWindowHeader>
+              <div className="dots">
+                <span className="dot red" />
+                <span className="dot yellow" />
+                <span className="dot green" />
+              </div>
+              <div className="title">mahesh-more.config.ts</div>
+            </DevWindowHeader>
+            <DevWindowBody>
+              <div className="code-line"><span className="kw">const</span> <span className="var">developer</span> = &#123;</div>
+              <div className="code-line indent"><span className="prop">name</span>: <span className="str">"Mahesh More"</span>,</div>
+              <div className="code-line indent"><span className="prop">stack</span>: [<span className="str">"React"</span>, <span className="str">"Node"</span>, <span className="str">"Python"</span>],</div>
+              <div className="code-line indent"><span className="prop">focus</span>: <span className="str">"GenAI & Web Apps"</span></div>
+              <div className="code-line">&#125;;</div>
+            </DevWindowBody>
+          </DevHeroWindow>
 
           <CategoryLabel variants={itemVariants}>
             / CREATIVE DEVELOPER & AI ENTHUSIAST
