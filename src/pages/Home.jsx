@@ -90,6 +90,13 @@ const CategoryLabel = styled(motion.p)`
   font-weight: 600;
 `;
 
+const Greeting = styled(motion.h2)`
+  font-size: 1.4rem;
+  color: ${(props) => props.theme.primary};
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+`;
+
 const Name = styled(motion.h1)`
   font-family: ${(props) => props.theme.serifFont};
   font-size: clamp(3.2rem, 7vw, 5.5rem);
@@ -192,6 +199,8 @@ const Home = () => {
           <CategoryLabel variants={itemVariants}>
             / CREATIVE DEVELOPER & AI ENTHUSIAST
           </CategoryLabel>
+
+          <Greeting variants={itemVariants}>Hello, I'm</Greeting>
 
           <Name variants={itemVariants}>
             Mahesh <span className="italic-accent">More</span>

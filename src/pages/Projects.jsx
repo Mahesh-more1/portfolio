@@ -380,7 +380,7 @@ const Projects = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7 }}
         >
-          Selected <span className="italic-accent">web applications</span> & products.
+          Featured <span className="italic-accent">Projects & Systems</span>
         </Title>
         <Subtitle
           initial={{ y: -20, opacity: 0 }}
