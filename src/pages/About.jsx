@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiDownload, FiCheck, FiArrowRight } from 'react-icons/fi';
+import { FiDownload, FiCheck, FiArrowRight, FiBookOpen } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
 const AboutContainer = styled.section`
@@ -205,6 +205,33 @@ const SkillTag = styled.span`
   }
 `;
 
+const EducationSection = styled.div`
+  margin-bottom: 5rem;
+`;
+
+const EducationTimeline = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+`;
+
+const EducationItem = styled(motion.div)`
+  background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 24px;
+  padding: 2.25rem;
+  box-shadow: ${props => props.theme.shadow};
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: ${props => props.theme.primary};
+  }
+`;
+
 const ExperienceSection = styled.div`
   margin-bottom: 5rem;
 `;
@@ -282,12 +309,28 @@ const CTASection = styled.div`
 
 const About = () => {
   const skills = {
+    "Core CS Fundamentals": [
+      "Database Management Systems (DBMS)",
+      "Computer Networks (CN)",
+      "Object-Oriented Programming (OOPs)",
+      "Operating Systems (OS)",
+      "Data Structures & Algorithms"
+    ],
     "Languages": ["JavaScript", "Python", "Java", "HTML5", "CSS3"],
     "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
     "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
     "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
     "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"]
   };
+
+  const education = [
+    {
+      degree: "Bachelor of Engineering (B.E.) in Computer Engineering",
+      institution: "SSBT's College of Engineering and Technology, Jalgaon",
+      duration: "2022 – 2026 (Pursuing)",
+      description: "Comprehensive coursework in Core CS Fundamentals including Database Management Systems (DBMS), Computer Networks, Object-Oriented Programming (OOPs), Operating Systems, Data Structures, and Software Engineering."
+    }
+  ];
 
   const experience = [
     {
@@ -326,7 +369,7 @@ const About = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
-          Get to know my background, technical skill set, and hands-on experience
+          Get to know my academic background, technical skill set, and hands-on experience
         </Subtitle>
       </Header>
 
@@ -363,7 +406,7 @@ const About = () => {
             </p>
             
             <p>
-              I specialize in full-stack web development and problem-solving, crafting scalable applications using <span className="highlight">React.js, JavaScript, Node.js, Express, Python</span>, and <span className="highlight">Java</span>.
+              I specialize in full-stack web development and core computer science fundamentals, crafting applications using <span className="highlight">React.js, JavaScript, Node.js, Express, Python</span>, and <span className="highlight">Java</span>.
             </p>
             
             <p>
@@ -389,7 +432,7 @@ const About = () => {
         <Header style={{ marginBottom: '2.5rem' }}>
           <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
           <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            Core <span className="italic-accent">skills & technologies</span>
+            Core <span className="italic-accent">skills & CS fundamentals</span>
           </Title>
         </Header>
         
@@ -416,6 +459,33 @@ const About = () => {
           ))}
         </SkillsGrid>
       </SkillsSection>
+
+      <EducationSection>
+        <Header style={{ marginBottom: '2.5rem' }}>
+          <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
+          <Title style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            Engineering <span className="italic-accent">degree & coursework</span>
+          </Title>
+        </Header>
+
+        <EducationTimeline>
+          {education.map((edu, index) => (
+            <EducationItem
+              key={index}
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+            >
+              <ExperienceHeader>
+                <h3>{edu.degree}</h3>
+                <span className="duration">{edu.duration}</span>
+              </ExperienceHeader>
+              <ExperienceCompany>{edu.institution}</ExperienceCompany>
+              <ExperienceDescription>{edu.description}</ExperienceDescription>
+            </EducationItem>
+          ))}
+        </EducationTimeline>
+      </EducationSection>
 
       <ExperienceSection>
         <Header style={{ marginBottom: '2.5rem' }}>
