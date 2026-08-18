@@ -12,38 +12,6 @@ const AmbientBackdropContainer = styled.div`
   pointer-events: none;
 `;
 
-const GlowOrb = styled.div`
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: ${props => props.theme.mode === 'light' ? 0.45 : 0.25};
-  transition: all 0.5s ease;
-`;
-
-const GlowOrb1 = styled(GlowOrb)`
-  top: -10%;
-  right: 5%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(168, 85, 247, 0.15) 70%, transparent 100%);
-`;
-
-const GlowOrb2 = styled(GlowOrb)`
-  bottom: 10%;
-  left: -5%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(244, 114, 182, 0.15) 70%, transparent 100%);
-`;
-
-const GlowOrb3 = styled(GlowOrb)`
-  top: 40%;
-  right: 35%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(251, 146, 60, 0.2) 0%, rgba(99, 102, 241, 0.1) 70%, transparent 100%);
-`;
-
 const ParticleBackground = () => {
   const canvasRef = useRef();
 
@@ -56,7 +24,7 @@ const ParticleBackground = () => {
     canvas.height = window.innerHeight;
 
     const particles = [];
-    const particleCount = 40;
+    const particleCount = 45;
 
     class Particle {
       constructor() {
@@ -140,9 +108,6 @@ const ParticleBackground = () => {
 
   return (
     <AmbientBackdropContainer>
-      <GlowOrb1 />
-      <GlowOrb2 />
-      <GlowOrb3 />
       <canvas ref={canvasRef} />
     </AmbientBackdropContainer>
   );
