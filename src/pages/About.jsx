@@ -533,10 +533,11 @@ const About = () => {
 
   /* ── Data from Official Resume ── */
   const skills = {
-    "Programming Languages": ["C", "C++", "Java", "JavaScript", "Python", "HTML5", "CSS3"],
-    "Web Development":       ["React.js", "Node.js", "Express.js", "FastAPI", "REST APIs", "Tailwind CSS"],
-    "AI & Cloud":             ["Generative AI (GenAI)", "RAG Systems", "Microsoft Azure (Core Data)", "Data Analytics"],
-    "Databases & Tools":      ["MongoDB", "PostgreSQL", "Firebase", "Cloudinary", "Razorpay", "Git", "GitHub", "VS Code"],
+    "Languages": ["C", "C++", "JavaScript", "Python", "Java", "HTML5", "CSS3"],
+    "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
+    "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
+    "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
+    "AI & Data": ["GenAI & RAG System", "AI Data Analytics"]
   };
 
   const coursework = [
