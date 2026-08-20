@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward, FiLayers, FiCode, FiBriefcase } from 'react-icons/fi';
+import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward, FiCode, FiBriefcase, FiMapPin, FiCpu } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
 const AboutContainer = styled.section`
@@ -254,11 +254,11 @@ const EducationSection = styled.div`
   scroll-margin-top: 150px;
 `;
 
-const EducationCard = styled(motion.div)`
+const ModernEduCard = styled(motion.div)`
   background: ${props => props.theme.card};
   border: 1px solid ${props => props.theme.cardBorder};
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 24px;
+  padding: 2.25rem;
   box-shadow: ${props => props.theme.shadow};
   backdrop-filter: blur(12px);
   max-width: 900px;
@@ -268,72 +268,111 @@ const EducationCard = styled(motion.div)`
   &:hover {
     transform: translateY(-3px);
     border-color: ${props => props.theme.primary};
+    box-shadow: 0 15px 35px -10px rgba(79, 70, 229, 0.12);
   }
 `;
 
-const EduHeader = styled.div`
+const EduTopRow = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 1.25rem;
   align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
-  .degree-box {
-    h3 {
-      font-family: ${props => props.theme.serifFont};
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: ${props => props.theme.text};
-      margin-bottom: 0.25rem;
-    }
-
-    .institution {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: ${props => props.theme.primary};
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-  }
-
-  .badges {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+  @media (max-width: 600px) {
+    flex-direction: column;
   }
 `;
 
-const EduPill = styled.span`
+const EduIconBadge = styled.div`
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: ${props => props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.08)' : 'rgba(99, 102, 241, 0.15)'};
+  color: ${props => props.theme.primary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  border: 1px solid ${props => props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.15)' : 'rgba(99, 102, 241, 0.25)'};
+`;
+
+const EduMainInfo = styled.div`
+  flex: 1;
+
+  .degree-title {
+    font-family: ${props => props.theme.serifFont};
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: ${props => props.theme.text};
+    line-height: 1.3;
+    margin-bottom: 0.35rem;
+
+    span.italic-accent {
+      font-style: italic;
+      color: ${props => props.theme.primary};
+    }
+  }
+
+  .institution-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: ${props => props.theme.primary};
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+`;
+
+const EduBadgesRow = styled.div`
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+
+const EduBadge = styled.span`
   font-family: ${props => props.theme.monoFont};
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.35rem 0.8rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 9999px;
   font-weight: 600;
   background: ${props => props.mint
     ? (props.theme.mode === 'light' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.2)')
-    : (props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.08)' : 'rgba(99, 102, 241, 0.15)')};
-  color: ${props => props.mint ? '#10b981' : props.theme.primary};
-  border: 1px solid ${props => props.mint ? 'rgba(16, 185, 129, 0.3)' : 'rgba(79, 70, 229, 0.2)'};
+    : (props.theme.mode === 'light' ? '#f1f5f9' : '#1e293b')};
+  color: ${props => props.mint ? '#10b981' : props.theme.text};
+  border: 1px solid ${props => props.mint ? 'rgba(16, 185, 129, 0.3)' : props.theme.cardBorder};
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 `;
 
-const EduCourseworkLabel = styled.div`
+const EduDivider = styled.div`
+  height: 1px;
+  background: ${props => props.theme.cardBorder};
+  margin: 1.25rem 0;
+`;
+
+const CourseworkHeaderLabel = styled.div`
   font-family: ${props => props.theme.monoFont};
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: ${props => props.theme.textSecondary};
-  margin: 1.25rem 0 0.6rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 `;
 
 const CourseworkGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.55rem;
 `;
 
 const CourseworkTag = styled.span`
@@ -341,10 +380,16 @@ const CourseworkTag = styled.span`
   font-size: 0.72rem;
   background: ${props => props.theme.mode === 'light' ? '#f8fafc' : '#0f172a'};
   color: ${props => props.theme.text};
-  padding: 0.35rem 0.75rem;
-  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
   border: 1px solid ${props => props.theme.cardBorder};
   font-weight: 500;
+  transition: all 0.25 ease;
+
+  &:hover {
+    border-color: ${props => props.theme.primary};
+    color: ${props => props.theme.primary};
+  }
 `;
 
 const ExperienceSection = styled.div`
@@ -617,25 +662,34 @@ const About = () => {
           </Title>
         </Header>
 
-        <EducationCard
+        <ModernEduCard
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          <EduHeader>
-            <div className="degree-box">
-              <h3>Bachelor of Engineering (B.E.) in Computer Engineering</h3>
-              <div className="institution">
-                <FiBookOpen /> SSBT's College of Engineering and Technology, Jalgaon
+          <EduTopRow>
+            <EduIconBadge>
+              <FiBookOpen />
+            </EduIconBadge>
+            <EduMainInfo>
+              <div className="degree-title">
+                Bachelor of Engineering (B.E.) <span className="italic-accent">in Computer Engineering</span>
               </div>
-            </div>
-            <div className="badges">
-              <EduPill>2023 – 2027</EduPill>
-              <EduPill mint><FiAward style={{ display: 'inline', marginRight: '4px' }} /> 8.2 CGPA</EduPill>
-            </div>
-          </EduHeader>
+              <div className="institution-name">
+                <FiMapPin style={{ fontSize: '0.9rem' }} /> SSBT's College of Engineering and Technology, Jalgaon
+              </div>
+              <EduBadgesRow>
+                <EduBadge>📅 2023 – 2027</EduBadge>
+                <EduBadge mint><FiAward /> 8.2 CGPA</EduBadge>
+              </EduBadgesRow>
+            </EduMainInfo>
+          </EduTopRow>
 
-          <EduCourseworkLabel>Key CS Coursework & Subjects:</EduCourseworkLabel>
+          <EduDivider />
+
+          <CourseworkHeaderLabel>
+            <FiCpu /> Core CS Coursework & Subjects:
+          </CourseworkHeaderLabel>
           <CourseworkGrid>
             {coursework.map((subject, idx) => (
               <CourseworkTag key={idx}>
@@ -643,7 +697,7 @@ const About = () => {
               </CourseworkTag>
             ))}
           </CourseworkGrid>
-        </EducationCard>
+        </ModernEduCard>
       </EducationSection>
 
       <ExperienceSection id="experience-section">
