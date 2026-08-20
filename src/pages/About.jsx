@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward } from 'react-icons/fi';
+import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward, FiLayers, FiCode, FiBriefcase } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
 const AboutContainer = styled.section`
@@ -54,7 +54,7 @@ const AboutContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 1.3fr;
   gap: 2.5rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -141,8 +141,52 @@ const AboutTextCard = styled(motion.div)`
   }
 `;
 
+const QuickNavContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 3.5rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 90px;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  background: ${props => props.theme.mode === 'light' ? 'rgba(255, 255, 255, 0.88)' : 'rgba(15, 23, 42, 0.88)'};
+  backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  border: 1px solid ${props => props.theme.cardBorder};
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+`;
+
+const QuickNavPill = styled.button`
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  background: ${props => props.active ? props.theme.primary : 'transparent'};
+  color: ${props => props.active ? '#ffffff' : props.theme.textSecondary};
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: ${props => props.active ? '#ffffff' : props.theme.primary};
+    background: ${props => props.active ? props.theme.primary : (props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.06)' : 'rgba(99, 102, 241, 0.12)')};
+  }
+`;
+
 const SkillsSection = styled.div`
   margin-bottom: 3.5rem;
+  scroll-margin-top: 150px;
 `;
 
 const SkillsGrid = styled.div`
@@ -207,6 +251,7 @@ const SkillTag = styled.span`
 
 const EducationSection = styled.div`
   margin-bottom: 3.5rem;
+  scroll-margin-top: 150px;
 `;
 
 const EducationCard = styled(motion.div)`
@@ -304,6 +349,7 @@ const CourseworkTag = styled.span`
 
 const ExperienceSection = styled.div`
   margin-bottom: 3.5rem;
+  scroll-margin-top: 150px;
 `;
 
 const ExperienceTimeline = styled.div`
@@ -381,6 +427,8 @@ const CTASection = styled.div`
 `;
 
 const About = () => {
+  const [activeTab, setActiveTab] = useState('skills');
+
   const skills = {
     "Languages": ["C", "C++", "JavaScript", "Python", "Java", "HTML5", "CSS3"],
     "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
@@ -418,6 +466,14 @@ const About = () => {
       description: "Participated in the Skills4Future program focusing on Artificial Intelligence, Data Analytics, and Green Skills certification."
     }
   ];
+
+  const scrollToSection = (id, tabName) => {
+    setActiveTab(tabName);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <AboutContainer>
@@ -494,7 +550,34 @@ const About = () => {
         </AboutTextCard>
       </AboutContent>
 
-      <SkillsSection>
+      <QuickNavContainer
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <QuickNavPill
+          active={activeTab === 'skills'}
+          onClick={() => scrollToSection('skills-section', 'skills')}
+        >
+          <FiCode /> Skills
+        </QuickNavPill>
+
+        <QuickNavPill
+          active={activeTab === 'education'}
+          onClick={() => scrollToSection('education-section', 'education')}
+        >
+          <FiBookOpen /> Education
+        </QuickNavPill>
+
+        <QuickNavPill
+          active={activeTab === 'experience'}
+          onClick={() => scrollToSection('experience-section', 'experience')}
+        >
+          <FiBriefcase /> Experience
+        </QuickNavPill>
+      </QuickNavContainer>
+
+      <SkillsSection id="skills-section">
         <Header style={{ marginBottom: '2rem' }}>
           <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
           <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
@@ -526,7 +609,7 @@ const About = () => {
         </SkillsGrid>
       </SkillsSection>
 
-      <EducationSection>
+      <EducationSection id="education-section">
         <Header style={{ marginBottom: '2rem' }}>
           <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
           <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
@@ -563,7 +646,7 @@ const About = () => {
         </EducationCard>
       </EducationSection>
 
-      <ExperienceSection>
+      <ExperienceSection id="experience-section">
         <Header style={{ marginBottom: '2rem' }}>
           <SectionPill>/ EXPERIENCE</SectionPill>
           <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
