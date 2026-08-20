@@ -434,7 +434,7 @@ const About = () => {
     "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
     "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
     "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
-    "AI & Data": ["GenAI & RAG System", "AI Data Analytics", "Jupyter Notebook", "Computer Vision"]
+    "AI & Data": ["GenAI & RAG System", "AI Data Analytics"]
   };
 
   const coursework = [
@@ -455,7 +455,7 @@ const About = () => {
     },
     {
       title: "Web Development Intern",
-      company: "VaultofCodes.in (AICTE Portal)",
+      company: "VaultofCodes.in",
       duration: "June 2025 – July 2025 (1 Month)",
       description: "Successfully completed hands-on web development tasks, front-end feature implementations, and project deliverables as part of the AICTE Corporate Internship program."
     },
@@ -630,8 +630,8 @@ const About = () => {
               </div>
             </div>
             <div className="badges">
-              <EduPill>2023 – 2027 (Pursuing)</EduPill>
-              <EduPill mint><FiAward style={{ display: 'inline', marginRight: '4px' }} /> 8.2 CGPA (Till 6th SEM)</EduPill>
+              <EduPill>2023 – 2027</EduPill>
+              <EduPill mint><FiAward style={{ display: 'inline', marginRight: '4px' }} /> 8.2 CGPA</EduPill>
             </div>
           </EduHeader>
 
