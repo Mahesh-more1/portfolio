@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { HashRouter as Router } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyles';
 import { lightTheme, darkTheme } from './styles/Theme';
@@ -42,23 +43,25 @@ function App() {
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <GlobalStyle />
-      <ScrollToTop />
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <main>
-        <SectionWrapper id="home">
-          <Home />
-        </SectionWrapper>
-        <SectionWrapper id="about">
-          <About />
-        </SectionWrapper>
-        <SectionWrapper id="projects">
-          <Projects />
-        </SectionWrapper>
-        <SectionWrapper id="contact">
-          <Contact />
-        </SectionWrapper>
-      </main>
-      <Footer />
+      <Router>
+        <ScrollToTop />
+        <Navbar theme={theme} toggleTheme={toggleTheme} />
+        <main>
+          <SectionWrapper id="home">
+            <Home />
+          </SectionWrapper>
+          <SectionWrapper id="about">
+            <About />
+          </SectionWrapper>
+          <SectionWrapper id="projects">
+            <Projects />
+          </SectionWrapper>
+          <SectionWrapper id="contact">
+            <Contact />
+          </SectionWrapper>
+        </main>
+        <Footer />
+      </Router>
     </ThemeProvider>
   );
 }
