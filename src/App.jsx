@@ -17,13 +17,16 @@ const SectionWrapper = styled.section`
 `;
 
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       setTheme(savedTheme);
+    } else {
+      setTheme('dark');
+      localStorage.setItem('theme', 'dark');
     }
     
     // Simulate loading
