@@ -263,11 +263,11 @@ const Home = () => {
           <CTAButtons variants={itemVariants}>
             <Button
               primary
-              as={motion.a}
-              href="#/contact"
+              as={motion.button}
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
-              style={{ borderRadius: '9999px', padding: '0.9rem 2rem', fontWeight: 600 }}
+              style={{ borderRadius: '9999px', padding: '0.9rem 2rem', fontWeight: 600, cursor: 'pointer' }}
             >
               <FiMail /> Say Hi <FiArrowRight />
             </Button>

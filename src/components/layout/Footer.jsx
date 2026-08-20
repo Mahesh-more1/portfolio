@@ -7,7 +7,7 @@ const FooterContainer = styled.footer`
   background: ${props => props.theme.backgroundSecondary};
   padding: 3rem 2rem 1rem;
   margin-top: 4rem;
-  border-top: 1px solid ${props => props.theme.border};
+  border-top: 1px solid ${props => props.theme.cardBorder};
 `;
 
 const FooterContent = styled.div`
@@ -41,9 +41,17 @@ const QuickLinks = styled.div`
   flex-wrap: wrap;
 `;
 
-const QuickLink = styled.a`
+const QuickLink = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   color: ${props => props.theme.textSecondary};
   font-weight: 500;
+  font-family: ${props => props.theme.monoFont};
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   transition: color 0.3s ease;
   
   &:hover {
@@ -74,11 +82,18 @@ const Footer = () => {
   ];
 
   const quickLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/contact', label: 'Contact' }
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'contact', label: 'Contact' }
   ];
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <FooterContainer>
@@ -104,7 +119,7 @@ const Footer = () => {
 
         <QuickLinks>
           {quickLinks.map((link, index) => (
-            <QuickLink key={index} href={link.href}>
+            <QuickLink key={index} onClick={() => scrollToSection(link.id)}>
               {link.label}
             </QuickLink>
           ))}

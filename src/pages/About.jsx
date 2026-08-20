@@ -724,11 +724,11 @@ const About = () => {
         </Title>
         <Button
           primary
-          as={motion.a}
-          href="#/contact"
+          as={motion.button}
+          onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
-          style={{ borderRadius: '9999px', padding: '0.8rem 2rem', fontSize: '0.92rem' }}
+          style={{ borderRadius: '9999px', padding: '0.8rem 2rem', fontSize: '0.92rem', cursor: 'pointer' }}
         >
           Say Hi <FiArrowRight />
         </Button>

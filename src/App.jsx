@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { AnimatePresence } from 'framer-motion';
+import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from './styles/GlobalStyles';
 import { lightTheme, darkTheme } from './styles/Theme';
 import Navbar from './components/layout/Navbar';
@@ -12,6 +10,10 @@ import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import ScrollToTop from './components/common/ScrollToTop';
 import Loader from './components/common/Loader';
+
+const SectionWrapper = styled.section`
+  scroll-margin-top: 80px;
+`;
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -24,7 +26,7 @@ function App() {
     }
     
     // Simulate loading
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 1500);
   }, []);
 
   const toggleTheme = () => {
@@ -40,19 +42,23 @@ function App() {
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <GlobalStyle />
-      <Router>
-        <ScrollToTop />
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </AnimatePresence>
-        <Footer />
-      </Router>
+      <ScrollToTop />
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
+      <main>
+        <SectionWrapper id="home">
+          <Home />
+        </SectionWrapper>
+        <SectionWrapper id="about">
+          <About />
+        </SectionWrapper>
+        <SectionWrapper id="projects">
+          <Projects />
+        </SectionWrapper>
+        <SectionWrapper id="contact">
+          <Contact />
+        </SectionWrapper>
+      </main>
+      <Footer />
     </ThemeProvider>
   );
 }

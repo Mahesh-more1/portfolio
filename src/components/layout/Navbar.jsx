@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
@@ -12,7 +11,7 @@ const NavContainer = styled(motion.nav)`
   z-index: 1000;
   padding: 1.25rem 2rem;
   background: ${props => props.scrolled ? 
-    (props.theme.mode === 'light' ? 'rgba(250, 250, 250, 0.85)' : 'rgba(9, 13, 22, 0.85)') : 'transparent'};
+    (props.theme.mode === 'light' ? 'rgba(250, 250, 250, 0.88)' : 'rgba(9, 13, 22, 0.88)') : 'transparent'};
   backdrop-filter: ${props => props.scrolled ? 'blur(12px)' : 'none'};
   border-bottom: ${props => props.scrolled ? 
     `1px solid ${props.theme.cardBorder}` : '1px solid transparent'};
@@ -31,7 +30,11 @@ const NavContent = styled.div`
   margin: 0 auto;
 `;
 
-const Logo = styled(motion.div)`
+const Logo = styled(motion.button)`
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   font-family: ${props => props.theme.serifFont};
   font-size: 1.6rem;
   font-weight: 700;
@@ -58,11 +61,16 @@ const NavLinks = styled.div`
     background: ${props => props.theme.background};
     padding: 2rem;
     border-top: 1px solid ${props => props.theme.cardBorder};
+    box-shadow: ${props => props.theme.shadow};
   }
 `;
 
-const NavLink = styled(Link)`
+const NavButton = styled.button`
   position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   font-family: ${props => props.theme.monoFont};
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -102,6 +110,7 @@ const ThemeToggle = styled(motion.button)`
   align-items: center;
   gap: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
@@ -112,6 +121,8 @@ const ThemeToggle = styled(motion.button)`
 const MobileToggle = styled.button`
   display: none;
   background: none;
+  border: none;
+  cursor: pointer;
   color: ${props => props.theme.text};
   font-size: 1.5rem;
 
@@ -123,7 +134,7 @@ const MobileToggle = styled.button`
 const Navbar = ({ theme, toggleTheme }) => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -134,11 +145,43 @@ const Navbar = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const sections = ['home', 'about', 'projects', 'contact'];
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      rootMargin: '-30% 0px -50% 0px',
+      threshold: 0
+    });
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = (id) => {
+    setIsOpen(false);
+    setActiveSection(id);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/contact', label: 'Contact' }
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'contact', label: 'Contact' }
   ];
 
   return (
@@ -150,6 +193,7 @@ const Navbar = ({ theme, toggleTheme }) => {
     >
       <NavContent>
         <Logo
+          onClick={() => scrollToSection('home')}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
         >
@@ -158,14 +202,13 @@ const Navbar = ({ theme, toggleTheme }) => {
 
         <NavLinks isOpen={isOpen}>
           {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              active={location.pathname === item.path}
-              onClick={() => setIsOpen(false)}
+            <NavButton
+              key={item.id}
+              active={activeSection === item.id}
+              onClick={() => scrollToSection(item.id)}
             >
               {item.label}
-            </NavLink>
+            </NavButton>
           ))}
           
           <ThemeToggle
