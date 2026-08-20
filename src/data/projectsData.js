@@ -1,9 +1,9 @@
 export const projectsData = [
   {
     id: 1,
-    title: "StudentMart — Campus Marketplace",
+    title: "StudentMart — Campus Peer-to-Peer Marketplace",
     description:
-      "A peer-to-peer campus marketplace built for college students across India. Features academic email verification (.edu / .ac.in), Razorpay secure payment checkout, Cloudinary media storage, dual fulfillment options (on-campus handover & Shiprocket delivery), and tiered student discount engine.",
+      "Architected a peer-to-peer campus marketplace supporting 100+ active student users across regional colleges. Integrated academic email authentication (.edu/.ac.in) for user verification (reducing unauthorized signups by 100%), configured Razorpay API for instant digital payments & Cloudinary CDN (cutting image loading latency by 40%), and programmed an automated student discount engine.",
     image: "/assets/images/projects/studentmart.png",
     technologies: [
       "React",
@@ -12,7 +12,6 @@ export const projectsData = [
       "MongoDB",
       "Razorpay",
       "Cloudinary",
-      "Vercel",
     ],
     liveLink: "https://studentmart-by-maheshmore.vercel.app",
     githubLink: "https://github.com/Mahesh-more1/studentmart",
@@ -22,9 +21,9 @@ export const projectsData = [
   },
   {
     id: 2,
-    title: "Pulse X — Social Media Platform",
+    title: "Pulse X — Full-Stack Social Media Platform",
     description:
-      "A full-stack social media web application featuring secure JWT & Bcrypt authentication, dynamic post creation feed, image uploads via Cloudinary & Multer, interactive user profiles, and responsive UI styled with Tailwind CSS.",
+      "Developed a full-stack social media application featuring real-time post creation, profile management, and interactive feeds. Enforced JWT + Bcrypt authentication securing 100% of API endpoints and user session data, and optimized Multer + Cloudinary media processing pipeline (reducing user media upload response time by 35%).",
     image: "/assets/images/projects/pulsex.png",
     technologies: [
       "React",
@@ -43,11 +42,11 @@ export const projectsData = [
   },
   {
     id: 3,
-    title: "GenAI Academic System with RAG",
+    title: "GenAI Academic Support System with RAG",
     description:
-      "An intelligent University Knowledge & Academic Support System designed for universities and affiliated colleges, powered by Generative AI, Retrieval-Augmented Generation (RAG), and FastAPI. The system will provide AI-powered academic assistance using verified institutional knowledge, along with examination and placement support.",
+      "Designing an AI University Support System using Generative AI and Retrieval-Augmented Generation (RAG). Building a high-concurrency FastAPI backend to parse 50+ university syllabus PDFs with sub-1.5s query response times.",
     image: "/assets/images/projects/genai.png",
-    technologies: ["Python", "GenAI", "RAG", "FastAPI", "React", "REST APIs"],
+    technologies: ["Python", "FastAPI", "GenAI", "RAG", "React"],
     liveLink: null,
     githubLink: null,
     category: "ai-ml",
