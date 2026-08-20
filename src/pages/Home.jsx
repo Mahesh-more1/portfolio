@@ -275,8 +275,8 @@ const Home = () => {
             <Button
               secondary
               as={motion.a}
-              href="/assets/resume.pdf"
-              download
+              href="./assets/resume.pdf"
+              download="Mahesh_More_Resume.pdf"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               style={{ borderRadius: '9999px', padding: '0.9rem 2rem', fontWeight: 600 }}

@@ -750,7 +750,7 @@ const About = () => {
           <Button
             primary
             as={motion.a}
-            href="/assets/resume.pdf"
+            href="./assets/resume.pdf"
             download="Mahesh_More_Resume.pdf"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
