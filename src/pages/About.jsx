@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward, FiCode, FiBriefcase, FiMapPin, FiCpu } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
@@ -141,32 +141,27 @@ const AboutTextCard = styled(motion.div)`
   }
 `;
 
-const QuickNavContainer = styled(motion.div)`
+const TabContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 3.5rem;
-  flex-wrap: wrap;
-  position: sticky;
-  top: 90px;
-  z-index: 10;
-  padding: 0.5rem 0.75rem;
-  background: ${props => props.theme.mode === 'light' ? 'rgba(255, 255, 255, 0.88)' : 'rgba(15, 23, 42, 0.88)'};
-  backdrop-filter: blur(12px);
-  border-radius: 9999px;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  background: ${props => props.theme.card};
   border: 1px solid ${props => props.theme.cardBorder};
+  padding: 0.4rem;
+  border-radius: 9999px;
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+  box-shadow: ${props => props.theme.shadow};
 `;
 
-const QuickNavPill = styled.button`
+const TabPill = styled.button`
   font-family: ${props => props.theme.monoFont};
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.55rem 1.25rem;
+  padding: 0.6rem 1.6rem;
   border-radius: 9999px;
   background: ${props => props.active ? props.theme.primary : 'transparent'};
   color: ${props => props.active ? '#ffffff' : props.theme.textSecondary};
@@ -175,18 +170,16 @@ const QuickNavPill = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   transition: all 0.3s ease;
 
   &:hover {
     color: ${props => props.active ? '#ffffff' : props.theme.primary};
-    background: ${props => props.active ? props.theme.primary : (props.theme.mode === 'light' ? 'rgba(79, 70, 229, 0.06)' : 'rgba(99, 102, 241, 0.12)')};
   }
 `;
 
-const SkillsSection = styled.div`
+const SkillsSection = styled(motion.div)`
   margin-bottom: 3.5rem;
-  scroll-margin-top: 150px;
 `;
 
 const SkillsGrid = styled.div`
@@ -249,9 +242,8 @@ const SkillTag = styled.span`
   }
 `;
 
-const EducationSection = styled.div`
+const EducationSection = styled(motion.div)`
   margin-bottom: 3.5rem;
-  scroll-margin-top: 150px;
 `;
 
 const ModernEduCard = styled(motion.div)`
@@ -382,7 +374,7 @@ const CourseworkTag = styled.span`
   border-radius: 8px;
   border: 1px solid ${props => props.theme.cardBorder};
   font-weight: 500;
-  transition: all 0.25 ease;
+  transition: all 0.25s ease;
 
   &:hover {
     border-color: ${props => props.theme.primary};
@@ -392,7 +384,6 @@ const CourseworkTag = styled.span`
 
 const ExperienceSection = styled.div`
   margin-bottom: 3.5rem;
-  scroll-margin-top: 150px;
 `;
 
 const ExperienceTimeline = styled.div`
@@ -510,14 +501,6 @@ const About = () => {
     }
   ];
 
-  const scrollToSection = (id, tabName) => {
-    setActiveTab(tabName);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <AboutContainer>
       <Header>
@@ -593,112 +576,121 @@ const About = () => {
         </AboutTextCard>
       </AboutContent>
 
-      <QuickNavContainer
+      <TabContainer
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <QuickNavPill
+        <TabPill
           active={activeTab === 'skills'}
-          onClick={() => scrollToSection('skills-section', 'skills')}
+          onClick={() => setActiveTab('skills')}
         >
           <FiCode /> Skills
-        </QuickNavPill>
+        </TabPill>
 
-        <QuickNavPill
+        <TabPill
           active={activeTab === 'education'}
-          onClick={() => scrollToSection('education-section', 'education')}
+          onClick={() => setActiveTab('education')}
         >
           <FiBookOpen /> Education
-        </QuickNavPill>
+        </TabPill>
+      </TabContainer>
 
-        <QuickNavPill
-          active={activeTab === 'experience'}
-          onClick={() => scrollToSection('experience-section', 'experience')}
-        >
-          <FiBriefcase /> Experience
-        </QuickNavPill>
-      </QuickNavContainer>
+      <AnimatePresence mode="wait">
+        {activeTab === 'skills' ? (
+          <SkillsSection
+            key="skills"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Header style={{ marginBottom: '2rem' }}>
+              <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
+              <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
+                Core <span className="italic-accent">skills & technologies</span>
+              </Title>
+            </Header>
+            
+            <SkillsGrid>
+              {Object.entries(skills).map(([category, skillList], index) => (
+                <SkillCategory
+                  key={category}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                >
+                  <CategoryTitle>
+                    <FiCheck />
+                    {category}
+                  </CategoryTitle>
+                  <SkillsList>
+                    {skillList.map((skill, skillIndex) => (
+                      <SkillTag key={skillIndex}>
+                        {skill}
+                      </SkillTag>
+                    ))}
+                  </SkillsList>
+                </SkillCategory>
+              ))}
+            </SkillsGrid>
+          </SkillsSection>
+        ) : (
+          <EducationSection
+            key="education"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Header style={{ marginBottom: '2rem' }}>
+              <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
+              <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
+                Engineering <span className="italic-accent">degree & academic standing</span>
+              </Title>
+            </Header>
 
-      <SkillsSection id="skills-section">
-        <Header style={{ marginBottom: '2rem' }}>
-          <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
-          <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
-            Core <span className="italic-accent">skills & technologies</span>
-          </Title>
-        </Header>
-        
-        <SkillsGrid>
-          {Object.entries(skills).map(([category, skillList], index) => (
-            <SkillCategory
-              key={category}
-              initial={{ y: 30, opacity: 0 }}
+            <ModernEduCard
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.4 }}
             >
-              <CategoryTitle>
-                <FiCheck />
-                {category}
-              </CategoryTitle>
-              <SkillsList>
-                {skillList.map((skill, skillIndex) => (
-                  <SkillTag key={skillIndex}>
-                    {skill}
-                  </SkillTag>
+              <EduTopRow>
+                <EduIconBadge>
+                  <FiBookOpen />
+                </EduIconBadge>
+                <EduMainInfo>
+                  <div className="degree-title">
+                    Bachelor of Engineering (B.E.) <span className="italic-accent">in Computer Engineering</span>
+                  </div>
+                  <div className="institution-name">
+                    <FiMapPin style={{ fontSize: '0.9rem' }} /> SSBT's College of Engineering and Technology, Jalgaon
+                  </div>
+                  <EduBadgesRow>
+                    <EduBadge>📅 2023 – 2027</EduBadge>
+                    <EduBadge mint><FiAward /> 8.2 CGPA</EduBadge>
+                  </EduBadgesRow>
+                </EduMainInfo>
+              </EduTopRow>
+
+              <EduDivider />
+
+              <CourseworkHeaderLabel>
+                <FiCpu /> Core CS Coursework & Subjects:
+              </CourseworkHeaderLabel>
+              <CourseworkGrid>
+                {coursework.map((subject, idx) => (
+                  <CourseworkTag key={idx}>
+                    {subject}
+                  </CourseworkTag>
                 ))}
-              </SkillsList>
-            </SkillCategory>
-          ))}
-        </SkillsGrid>
-      </SkillsSection>
+              </CourseworkGrid>
+            </ModernEduCard>
+          </EducationSection>
+        )}
+      </AnimatePresence>
 
-      <EducationSection id="education-section">
-        <Header style={{ marginBottom: '2rem' }}>
-          <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
-          <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
-            Engineering <span className="italic-accent">degree & academic standing</span>
-          </Title>
-        </Header>
-
-        <ModernEduCard
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <EduTopRow>
-            <EduIconBadge>
-              <FiBookOpen />
-            </EduIconBadge>
-            <EduMainInfo>
-              <div className="degree-title">
-                Bachelor of Engineering (B.E.) <span className="italic-accent">in Computer Engineering</span>
-              </div>
-              <div className="institution-name">
-                <FiMapPin style={{ fontSize: '0.9rem' }} /> SSBT's College of Engineering and Technology, Jalgaon
-              </div>
-              <EduBadgesRow>
-                <EduBadge>📅 2023 – 2027</EduBadge>
-                <EduBadge mint><FiAward /> 8.2 CGPA</EduBadge>
-              </EduBadgesRow>
-            </EduMainInfo>
-          </EduTopRow>
-
-          <EduDivider />
-
-          <CourseworkHeaderLabel>
-            <FiCpu /> Core CS Coursework & Subjects:
-          </CourseworkHeaderLabel>
-          <CourseworkGrid>
-            {coursework.map((subject, idx) => (
-              <CourseworkTag key={idx}>
-                {subject}
-              </CourseworkTag>
-            ))}
-          </CourseworkGrid>
-        </ModernEduCard>
-      </EducationSection>
-
-      <ExperienceSection id="experience-section">
+      <ExperienceSection>
         <Header style={{ marginBottom: '2rem' }}>
           <SectionPill>/ EXPERIENCE</SectionPill>
           <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
