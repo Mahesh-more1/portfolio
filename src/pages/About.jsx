@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward, FiCode, FiBriefcase, FiMapPin, FiCpu } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { FiDownload, FiCheck, FiArrowRight, FiBookOpen, FiAward, FiCode, FiBriefcase, FiMapPin, FiCpu, FiCheckCircle } from 'react-icons/fi';
 import Button from '../components/common/Button';
 
 /* ─── Layout ─────────────────────────────────────────────────── */
@@ -158,28 +158,34 @@ const BioCard = styled(motion.div)`
   }
 `;
 
-/* ─── Tab Switcher ────────────────────────────────────────────── */
-const TabContainer = styled(motion.div)`
+/* ─── Sticky Nav Bar ──────────────────────────────────────────── */
+const StickyNav = styled(motion.div)`
+  position: sticky;
+  top: 4.5rem;
+  z-index: 50;
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
+`;
+
+const NavPillGroup = styled.div`
+  display: flex;
+  gap: 0.5rem;
   background: ${props => props.theme.card};
   border: 1px solid ${props => props.theme.cardBorder};
   padding: 0.35rem;
   border-radius: 9999px;
-  max-width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
   box-shadow: ${props => props.theme.shadow};
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
-const TabPill = styled.button`
+const NavPill = styled.button`
   font-family: ${props => props.theme.monoFont};
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.6rem 1.6rem;
+  padding: 0.55rem 1.4rem;
   border-radius: 9999px;
   background: ${props => props.active ? props.theme.primary : 'transparent'};
   color: ${props => props.active ? '#ffffff' : props.theme.textSecondary};
@@ -188,19 +194,31 @@ const TabPill = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  transition: all 0.3s ease;
+  gap: 0.4rem;
+  transition: background 0.25s ease, color 0.25s ease;
 
   &:hover {
     color: ${props => props.active ? '#ffffff' : props.theme.primary};
   }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.68rem;
+  }
+`;
+
+/* ─── Scroll Sections ─────────────────────────────────────────── */
+const ScrollSection = styled.div`
+  margin-bottom: 4.5rem;
+  scroll-margin-top: 8rem;
+`;
+
+const SectionHeader = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
 `;
 
 /* ─── Skills ──────────────────────────────────────────────────── */
-const SkillsSection = styled(motion.div)`
-  margin-bottom: 3.5rem;
-`;
-
 const SkillsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -261,10 +279,6 @@ const SkillTag = styled.span`
 `;
 
 /* ─── Education ───────────────────────────────────────────────── */
-const EducationSection = styled(motion.div)`
-  margin-bottom: 3.5rem;
-`;
-
 const EduCard = styled(motion.div)`
   background: ${props => props.theme.card};
   border: 1px solid ${props => props.theme.cardBorder};
@@ -432,10 +446,6 @@ const SchoolCard = styled(motion.div)`
 `;
 
 /* ─── Experience ──────────────────────────────────────────────── */
-const ExperienceSection = styled.div`
-  margin-bottom: 3.5rem;
-`;
-
 const ExpTimeline = styled.div`
   display: flex;
   flex-direction: column;
@@ -515,6 +525,46 @@ const BulletList = styled.ul`
   }
 `;
 
+/* ─── Certifications & Achievements ───────────────────────────── */
+const CertsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+  max-width: 860px;
+  margin: 0 auto;
+`;
+
+const CertCard = styled(motion.div)`
+  background: ${props => props.theme.card};
+  border: 1px solid ${props => props.theme.cardBorder};
+  border-radius: 18px;
+  padding: 1.4rem;
+  box-shadow: ${props => props.theme.shadow};
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+
+  .cert-icon {
+    font-size: 1.25rem;
+    color: ${props => props.theme.primary};
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .cert-title {
+    font-weight: 700;
+    color: ${props => props.theme.text};
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .cert-desc {
+    font-size: 0.85rem;
+    color: ${props => props.theme.textSecondary};
+    line-height: 1.45;
+  }
+`;
+
 /* ─── CTA ─────────────────────────────────────────────────────── */
 const CTACard = styled.div`
   text-align: center;
@@ -529,15 +579,49 @@ const CTACard = styled.div`
 
 /* ═══════════════════════════════════════════════════════════════ */
 const About = () => {
-  const [activeTab, setActiveTab] = useState('skills');
+  const [activeSection, setActiveSection] = useState('skills');
+
+  const skillsRef  = useRef(null);
+  const eduRef     = useRef(null);
+  const expRef     = useRef(null);
+  const certsRef   = useRef(null);
+
+  /* Highlight nav pill based on scroll position */
+  useEffect(() => {
+    const sections = [
+      { id: 'skills',         ref: skillsRef  },
+      { id: 'education',      ref: eduRef     },
+      { id: 'experience',     ref: expRef     },
+      { id: 'certifications', ref: certsRef   },
+    ];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const matched = sections.find(s => s.ref.current === entry.target);
+            if (matched) setActiveSection(matched.id);
+          }
+        });
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 }
+    );
+
+    sections.forEach(s => { if (s.ref.current) observer.observe(s.ref.current); });
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollTo = (ref, id) => {
+    setActiveSection(id);
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   /* ── Data from Official Resume ── */
   const skills = {
-    "Languages": ["C", "C++", "JavaScript", "Python", "Java", "HTML5", "CSS3"],
-    "Frontend & UI": ["React.js", "Tailwind CSS", "Styled Components", "Responsive UI"],
-    "Backend & Databases": ["Node.js", "Express.js", "MongoDB", "REST APIs", "FastAPI", "PostgreSQL"],
-    "Tools, DevOps & Cloud": ["Docker (Learning)", "Git & GitHub", "Cloudinary", "Razorpay", "VS Code", "Firebase"],
-    "AI & Data": ["GenAI & RAG System", "AI Data Analytics"]
+    "Programming Languages": ["C", "C++", "Java", "JavaScript", "Python", "HTML5", "CSS3"],
+    "Web Development":       ["React.js", "Node.js", "Express.js", "FastAPI", "REST APIs", "Tailwind CSS"],
+    "AI & Cloud":             ["Generative AI (GenAI)", "RAG Systems", "Microsoft Azure (Core Data)", "Data Analytics"],
+    "Databases & Tools":      ["MongoDB", "PostgreSQL", "Firebase", "Cloudinary", "Razorpay", "Git", "GitHub", "VS Code"],
   };
 
   const coursework = [
@@ -578,6 +662,29 @@ const About = () => {
         "Analyzed real-world dataset case studies under the Skills4Future program and earned industry certification.",
       ]
     },
+  ];
+
+  const certifications = [
+    {
+      title: "Tata GenAI Powered Data Analytics",
+      desc: "Completed job simulation on Forage covering Exploratory Data Analysis & Risk Profiling."
+    },
+    {
+      title: "Microsoft Azure Data Core Concepts",
+      desc: "Certification issued by Microsoft Learn covering fundamental Azure data services."
+    },
+    {
+      title: "AI & Data Analytics Certification",
+      desc: "Issued by Shell India & Edunet Foundation under the AICTE Skills4Future program."
+    },
+    {
+      title: "Problem Solving & DSA",
+      desc: "Solved 100+ LeetCode problems covering core Data Structures and Algorithms."
+    },
+    {
+      title: "Letter of Recommendation",
+      desc: "Received from InternPro for outstanding web development contributions."
+    }
   ];
 
   return (
@@ -654,142 +761,126 @@ const About = () => {
         </BioCard>
       </AboutContent>
 
-      {/* ── Tab Switcher ── */}
-      <TabContainer
-        initial={{ y: 20, opacity: 0 }}
+      {/* ── Sticky Nav ── */}
+      <StickyNav
+        initial={{ y: 15, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <TabPill
-          active={activeTab === 'skills'}
-          onClick={() => setActiveTab('skills')}
-        >
-          <FiCode /> Skills
-        </TabPill>
+        <NavPillGroup>
+          <NavPill active={activeSection === 'skills'} onClick={() => scrollTo(skillsRef, 'skills')}>
+            <FiCode /> Skills
+          </NavPill>
+          <NavPill active={activeSection === 'education'} onClick={() => scrollTo(eduRef, 'education')}>
+            <FiBookOpen /> Education
+          </NavPill>
+          <NavPill active={activeSection === 'experience'} onClick={() => scrollTo(expRef, 'experience')}>
+            <FiBriefcase /> Experience
+          </NavPill>
+          <NavPill active={activeSection === 'certifications'} onClick={() => scrollTo(certsRef, 'certifications')}>
+            <FiAward /> Achievements
+          </NavPill>
+        </NavPillGroup>
+      </StickyNav>
 
-        <TabPill
-          active={activeTab === 'education'}
-          onClick={() => setActiveTab('education')}
-        >
-          <FiBookOpen /> Education
-        </TabPill>
-      </TabContainer>
+      {/* ════════════ SKILLS ════════════ */}
+      <ScrollSection ref={skillsRef} id="skills-section">
+        <SectionHeader>
+          <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
+          <Title>Core <span className="italic-accent">skills & technologies</span></Title>
+        </SectionHeader>
 
-      {/* ── Single-View Tab Content (Skills vs Education) ── */}
-      <AnimatePresence mode="wait">
-        {activeTab === 'skills' ? (
-          <SkillsSection
-            key="skills"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3 }}
-          >
-            <PageHeader style={{ marginBottom: '2rem' }}>
-              <SectionPill>/ TECHNICAL ARSENAL</SectionPill>
-              <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
-                Core <span className="italic-accent">skills & technologies</span>
-              </Title>
-            </PageHeader>
-
-            <SkillsGrid>
-              {Object.entries(skills).map(([category, list], i) => (
-                <SkillCategory
-                  key={category}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                >
-                  <CategoryTitle><FiCheck />{category}</CategoryTitle>
-                  <SkillsList>
-                    {list.map((s, j) => <SkillTag key={j}>{s}</SkillTag>)}
-                  </SkillsList>
-                </SkillCategory>
-              ))}
-            </SkillsGrid>
-          </SkillsSection>
-        ) : (
-          <EducationSection
-            key="education"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3 }}
-          >
-            <PageHeader style={{ marginBottom: '2rem' }}>
-              <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
-              <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
-                Engineering <span className="italic-accent">degree & academic standing</span>
-              </Title>
-            </PageHeader>
-
-            <EduCard
+        <SkillsGrid>
+          {Object.entries(skills).map(([category, list], i) => (
+            <SkillCategory
+              key={category}
               initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.4 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.07 }}
             >
-              <EduTopRow>
-                <EduIconBadge><FiBookOpen /></EduIconBadge>
-                <EduMainInfo>
-                  <div className="degree">
-                    Bachelor of Engineering (B.E.) <em>in Computer Engineering</em>
-                  </div>
-                  <div className="institution">
-                    <FiMapPin style={{ fontSize: '0.88rem' }} />
-                    SSBT's College of Engineering and Technology, Jalgaon, MH
-                  </div>
-                  <BadgeRow>
-                    <Badge>📅 2023 – 2027 (Expected)</Badge>
-                    <Badge green><FiAward /> Current CGPA: 8.2 / 10.0</Badge>
-                  </BadgeRow>
-                </EduMainInfo>
-              </EduTopRow>
+              <CategoryTitle><FiCheck />{category}</CategoryTitle>
+              <SkillsList>
+                {list.map((s, j) => <SkillTag key={j}>{s}</SkillTag>)}
+              </SkillsList>
+            </SkillCategory>
+          ))}
+        </SkillsGrid>
+      </ScrollSection>
 
-              <EduDivider />
+      {/* ════════════ EDUCATION ════════════ */}
+      <ScrollSection ref={eduRef} id="education-section">
+        <SectionHeader>
+          <SectionPill>/ ACADEMIC EDUCATION</SectionPill>
+          <Title>Engineering <span className="italic-accent">degree & academic standing</span></Title>
+        </SectionHeader>
 
-              <CourseworkLabel><FiCpu /> Core CS Coursework & Subjects</CourseworkLabel>
-              <CourseworkGrid>
-                {coursework.map((s, i) => <CourseworkTag key={i}>{s}</CourseworkTag>)}
-              </CourseworkGrid>
-            </EduCard>
+        <EduCard
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <EduTopRow>
+            <EduIconBadge><FiBookOpen /></EduIconBadge>
+            <EduMainInfo>
+              <div className="degree">
+                Bachelor of Engineering (B.E.) <em>in Computer Engineering</em>
+              </div>
+              <div className="institution">
+                <FiMapPin style={{ fontSize: '0.88rem' }} />
+                SSBT's College of Engineering and Technology, Jalgaon, MH
+              </div>
+              <BadgeRow>
+                <Badge>📅 2023 – 2027 (Expected)</Badge>
+                <Badge green><FiAward /> Current CGPA: 8.2 / 10.0</Badge>
+              </BadgeRow>
+            </EduMainInfo>
+          </EduTopRow>
 
-            <SchoolGrid>
-              <SchoolCard
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.45 }}
-              >
-                <div>
-                  <div className="school-title">HSC (Class XII)</div>
-                  <div className="school-subtitle">Maharashtra State Board · 2023</div>
-                </div>
-                <Badge green style={{ width: 'fit-content' }}>Percentage: 73%</Badge>
-              </SchoolCard>
+          <EduDivider />
 
-              <SchoolCard
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.45, delay: 0.1 }}
-              >
-                <div>
-                  <div className="school-title">SSC (Class X)</div>
-                  <div className="school-subtitle">Maharashtra State Board · 2021</div>
-                </div>
-                <Badge green style={{ width: 'fit-content' }}>Percentage: 91.20%</Badge>
-              </SchoolCard>
-            </SchoolGrid>
-          </EducationSection>
-        )}
-      </AnimatePresence>
+          <CourseworkLabel><FiCpu /> Core CS Coursework & Subjects</CourseworkLabel>
+          <CourseworkGrid>
+            {coursework.map((s, i) => <CourseworkTag key={i}>{s}</CourseworkTag>)}
+          </CourseworkGrid>
+        </EduCard>
 
-      {/* ════════════ EXPERIENCE (PERMANENTLY BELOW) ════════════ */}
-      <ExperienceSection>
-        <PageHeader style={{ marginBottom: '2rem' }}>
+        <SchoolGrid>
+          <SchoolCard
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+          >
+            <div>
+              <div className="school-title">HSC (Class XII)</div>
+              <div className="school-subtitle">Maharashtra State Board · 2023</div>
+            </div>
+            <Badge green style={{ width: 'fit-content' }}>Percentage: 73%</Badge>
+          </SchoolCard>
+
+          <SchoolCard
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: 0.1 }}
+          >
+            <div>
+              <div className="school-title">SSC (Class X)</div>
+              <div className="school-subtitle">Maharashtra State Board · 2021</div>
+            </div>
+            <Badge green style={{ width: 'fit-content' }}>Percentage: 91.20%</Badge>
+          </SchoolCard>
+        </SchoolGrid>
+      </ScrollSection>
+
+      {/* ════════════ EXPERIENCE ════════════ */}
+      <ScrollSection ref={expRef} id="experience-section">
+        <SectionHeader>
           <SectionPill>/ EXPERIENCE</SectionPill>
-          <Title style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}>
-            Professional <span className="italic-accent">internships & learning</span>
-          </Title>
-        </PageHeader>
+          <Title>Professional <span className="italic-accent">internships & learning</span></Title>
+        </SectionHeader>
 
         <ExpTimeline>
           {experience.map((exp, i) => (
@@ -813,7 +904,33 @@ const About = () => {
             </ExpCard>
           ))}
         </ExpTimeline>
-      </ExperienceSection>
+      </ScrollSection>
+
+      {/* ════════════ CERTIFICATIONS & ACHIEVEMENTS ════════════ */}
+      <ScrollSection ref={certsRef} id="certifications-section">
+        <SectionHeader>
+          <SectionPill>/ CERTIFICATIONS & ACHIEVEMENTS</SectionPill>
+          <Title>Honors <span className="italic-accent">& industry credentials</span></Title>
+        </SectionHeader>
+
+        <CertsGrid>
+          {certifications.map((cert, i) => (
+            <CertCard
+              key={i}
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.08 }}
+            >
+              <FiCheckCircle className="cert-icon" />
+              <div>
+                <div className="cert-title">{cert.title}</div>
+                <div className="cert-desc">{cert.desc}</div>
+              </div>
+            </CertCard>
+          ))}
+        </CertsGrid>
+      </ScrollSection>
 
       {/* ── CTA ── */}
       <CTACard>
