@@ -260,7 +260,6 @@ const ModernEduCard = styled(motion.div)`
   border-radius: 24px;
   padding: 2.25rem;
   box-shadow: ${props => props.theme.shadow};
-  backdrop-filter: blur(12px);
   max-width: 900px;
   margin: 0 auto;
   transition: all 0.3s ease;
@@ -268,7 +267,6 @@ const ModernEduCard = styled(motion.div)`
   &:hover {
     transform: translateY(-3px);
     border-color: ${props => props.theme.primary};
-    box-shadow: 0 15px 35px -10px rgba(79, 70, 229, 0.12);
   }
 `;
 
