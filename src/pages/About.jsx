@@ -529,10 +529,12 @@ const About = () => {
         >
           <ProfileImage whileHover={{ scale: 1.04 }}>
             <img 
-              src="./assets/images/profile.png" 
+              src="./assets/images/profile.jpg" 
               alt="Mahesh More" 
+              loading="eager"
+              fetchPriority="high"
               onError={(e) => {
-                e.target.src = "./assets/images/profile.jpg";
+                e.target.src = "./assets/images/profile.png";
               }}
             />
           </ProfileImage>
