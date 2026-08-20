@@ -257,7 +257,7 @@ const Home = () => {
           </TypedText>
 
           <Description variants={itemVariants}>
-            Aspiring Computer Engineer with hands-on experience in full-stack web development (MERN stack) and AI/data analytics. Skilled in React.js, Node.js, Express.js, Python, FastAPI, and Generative AI (RAG).
+            Computer Engineering student & web developer passionate about building clean, high-performance web applications with React.js, JavaScript, Node.js, and GenAI & RAG integrations.
           </Description>
 
           <CTAButtons variants={itemVariants}>
